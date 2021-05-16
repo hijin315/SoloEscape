@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">SoloEscape</string>
+    <string name="facebook_app_id">765489287500051</string> <string name="fb_login_protocol_scheme">fb765489287500051</string>
+
+</resources>
