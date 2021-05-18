@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.jinny.model.CardItem
 import com.jinny.soloescape.databinding.ItemCardBinding
 import com.jinny.soloescape.databinding.MatchListBinding
@@ -15,6 +16,9 @@ class MatchListAdapter : ListAdapter<CardItem, MatchListAdapter.ViewHolder>(diff
         RecyclerView.ViewHolder(viewBinding.root) {
         fun bind(cardItem: CardItem) {
             viewBinding.userNameTextView.text = cardItem.name
+            Glide.with(viewBinding.userProfileImageView.context)
+                .load(cardItem.imageUrl)
+                .into(viewBinding.userProfileImageView)
         }
     }
 

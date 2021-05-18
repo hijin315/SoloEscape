@@ -55,7 +55,7 @@ class MatchListActivity : AppCompatActivity() {
     private fun getUserByKey(userID:String){
         userDB.child(userID).addListenerForSingleValueEvent(object:ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                cardItems.add(CardItem(userID,snapshot.child("name").value.toString()))
+                cardItems.add(CardItem(userID,snapshot.child("name").value.toString(),snapshot.child("imageUrl").value.toString()))
                 adapter.submitList(cardItems)
             }
 

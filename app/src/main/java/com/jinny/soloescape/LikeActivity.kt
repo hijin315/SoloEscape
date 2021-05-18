@@ -1,5 +1,7 @@
 package com.jinny.soloescape
 
+import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -7,6 +9,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
@@ -75,31 +78,48 @@ class LikeActivity : AppCompatActivity(), CardStackListener {
 
     private fun showNameInputPopUp() {
         // 동적으로 editText를 생성
-        val editText = EditText(this)
-        AlertDialog.Builder(this).setTitle("이름을 입력해주세요")
-            .setView(editText).setPositiveButton("저장") { _, _ ->
-                if (editText.text.isEmpty()) {
-                    showNameInputPopUp()
-                } else {
-                    saveUserName(editText.text.toString())
-                }
+//        val editText = EditText(this)
+//        AlertDialog.Builder(this).setTitle("이름을 입력해주세요")
+//            .setView(editText).setPositiveButton("저장") { _, _ ->
+//                if (editText.text.isEmpty()) {
+//                    showNameInputPopUp()
+//                } else {
+//                    saveUserName(editText.text.toString())
+//                }
+//
+//
+//            }.setCancelable(false).show()
+        val intent = Intent(this, GetProfile::class.java)
+        intent.putExtra("", 1) //데이터 넣기
+        intent.putExtra("num2", 2) //데이터 넣기
+        startActivityForResult(intent, 101)
 
-
-            }.setCancelable(false).show()
     }
 
-    private fun saveUserName(name: String) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 101 && resultCode == Activity.RESULT_OK) {
+            val name: String? = data?.getStringExtra("name")
+            val imageUrl: String? = data?.getStringExtra("imageUrl")
+            saveUserName(name!!, imageUrl!!)
+
+        }
+    }
+
+    private fun saveUserName(name: String, imageUrl: String) {
         val userID = getCurrentUserID()
         val currentUserDB = userDB.child(userID)
         val user = mutableMapOf<String, Any>()
         user["userID"] = userID
         user["name"] = name
+        user["imageUrl"] = imageUrl
         currentUserDB.updateChildren(user)
 
         // 유저 정보 가져오기
         getUnSelectedUsers()
 
     }
+
 
     private fun getUnSelectedUsers() {
         userDB.addChildEventListener(object : ChildEventListener {
@@ -114,7 +134,8 @@ class LikeActivity : AppCompatActivity(), CardStackListener {
                     if (snapshot.child("name").value != null) {
                         name = snapshot.child("name").value.toString()
                     }
-                    cardItems.add(CardItem(userID, name))
+                    val imageUrl = snapshot.child("imageUrl").value.toString()
+                    cardItems.add(CardItem(userID, name, imageUrl))
                     adapter.submitList(cardItems)
                     adapter.notifyDataSetChanged()
                 }

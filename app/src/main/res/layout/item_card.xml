@@ -9,24 +9,26 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#D58BC34A"
+        android:background="#E493A2"
         android:gravity="center"
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="180dp"
-            android:layout_height="180dp"
-            android:layout_gravity="center"
-            android:src="@color/browser_actions_text_color" />
+            android:id="@+id/profileImageView"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
 
         <TextView
             android:id="@+id/nameTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/gamjaflower_regular"
             android:gravity="center"
+            android:layout_marginTop="7dp"
             android:text="name"
             android:textColor="@color/black"
-            android:textSize="40sp" />
+            android:textSize="50sp" />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

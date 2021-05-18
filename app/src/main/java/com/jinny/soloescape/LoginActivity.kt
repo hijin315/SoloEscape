@@ -1,11 +1,13 @@
 package com.jinny.soloescape
 
+import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.widget.addTextChangedListener
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -33,6 +35,14 @@ class LoginActivity : AppCompatActivity() {
         initSignUpButton()
         initEmailAndPassWordEditText()
         initFacebookLogin()
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ),
+            1
+        )
     }
 
     private fun initLoginButton() {
